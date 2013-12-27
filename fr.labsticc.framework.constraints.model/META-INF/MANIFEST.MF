@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: fr.labsticc.framework.constraints.model;singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: fr.labsticc.framework.constraints.model.constraints,
+ fr.labsticc.framework.constraints.model.constraints.impl,
+ fr.labsticc.framework.constraints.model.constraints.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
+Bundle-ActivationPolicy: lazy

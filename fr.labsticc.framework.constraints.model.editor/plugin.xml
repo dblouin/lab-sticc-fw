@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="fr.labsticc.framework.constraints.ide.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="fr.labsticc.framework.constraints.model.constraints.presentation.ConstraintsModelWizardID"
+            name="%_UI_ConstraintsModelWizard_label"
+            class="fr.labsticc.framework.constraints.model.constraints.presentation.ConstraintsModelWizard"
+            category="fr.labsticc.framework.constraints.ide.Wizard.category.ID"
+            icon="icons/full/obj16/ConstraintsModelFile.gif">
+         <description>%_UI_ConstraintsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="fr.labsticc.framework.constraints.model.constraints.presentation.ConstraintsEditorID"
+            name="%_UI_ConstraintsEditor_label"
+            icon="icons/full/obj16/ConstraintsModelFile.gif"
+            extensions="constraints"
+            class="fr.labsticc.framework.constraints.model.constraints.presentation.ConstraintsEditor"
+            contributorClass="fr.labsticc.framework.constraints.model.constraints.presentation.ConstraintsActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

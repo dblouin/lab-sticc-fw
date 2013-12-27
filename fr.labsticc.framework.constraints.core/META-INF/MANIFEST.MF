@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC Core Constraints Framework
+Bundle-SymbolicName: fr.labsticc.framework.constraints.core;singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-Vendor: Lab-STICC UBS
+Export-Package: fr.labsticc.framework.constraints.core,
+ fr.labsticc.framework.constraints.core.exception
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: fr.labsticc.framework.core.exception,
+ org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.impl,
+ org.eclipse.osgi.util;version="1.1.0"
+Bundle-ActivationPolicy: lazy

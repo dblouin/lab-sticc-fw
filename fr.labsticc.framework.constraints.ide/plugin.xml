@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="constraintLanguagesModelDefaultLocation" name="constraintLanguagesModelDefaultLocation" schema="schema/constraintLanguagesModelDefaultLocation.exsd"/>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="fr.labsticc.framework.constraints.ide.ConstraintPreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="fr.labsticc.framework.constraints.ide.view.ConstraintsLanguagePreferencePage"
+            id="fr.labsticc.framework.constraints.ide"
+            name="Constraints Languages">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="fr.labsticc.framework.constraints.ide.category1"
+            name="Constraint Language">
+      </category>
+   </extension>
+
+</plugin>

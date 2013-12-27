@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/fr.labsticc.framework.constraints.model/src"
+    modelPluginID="fr.labsticc.framework.constraints.model" modelName="Constraints"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>constraints.ecore</foreignModel>
+  <genPackages prefix="Constraints" basePackage="fr.labsticc.framework.constraints.model"
+      disposableProviderFactory="true" ecorePackage="constraints.ecore#/">
+    <genClasses image="false" ecoreClass="constraints.ecore#//IdentifiedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute constraints.ecore#//IdentifiedElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute constraints.ecore#//IdentifiedElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute constraints.ecore#//IdentifiedElement/description"/>
+    </genClasses>
+    <genClasses ecoreClass="constraints.ecore#//ConstraintLanguagesSpecification">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference constraints.ecore#//ConstraintLanguagesSpecification/languages"/>
+      <genOperations ecoreOperation="constraints.ecore#//ConstraintLanguagesSpecification/languageById">
+        <genParameters ecoreParameter="constraints.ecore#//ConstraintLanguagesSpecification/languageById/id"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="constraints.ecore#//ConstraintLanguage">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference constraints.ecore#//ConstraintLanguage/specification"/>
+    </genClasses>
+    <genClasses ecoreClass="constraints.ecore#//FormalConstraintLanguage">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference constraints.ecore#//FormalConstraintLanguage/libraries"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference constraints.ecore#//FormalConstraintLanguage/interpreter"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference constraints.ecore#//FormalConstraintLanguage/persister"/>
+      <genOperations ecoreOperation="constraints.ecore#//FormalConstraintLanguage/libraryByName">
+        <genParameters ecoreParameter="constraints.ecore#//FormalConstraintLanguage/libraryByName/name"/>
+      </genOperations>
+      <genOperations ecoreOperation="constraints.ecore#//FormalConstraintLanguage/libraryById">
+        <genParameters ecoreParameter="constraints.ecore#//FormalConstraintLanguage/libraryById/id"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="constraints.ecore#//NaturalConstraintLanguage"/>
+    <genClasses ecoreClass="constraints.ecore#//FormalLanguageLibrary">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference constraints.ecore#//FormalLanguageLibrary/expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute constraints.ecore#//FormalLanguageLibrary/default"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference constraints.ecore#//FormalLanguageLibrary/language"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="constraints.ecore#//Expression">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference constraints.ecore#//Expression/language"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute constraints.ecore#//Expression/text"/>
+    </genClasses>
+    <genClasses ecoreClass="constraints.ecore#//FormalLanguageExpression">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference constraints.ecore#//FormalLanguageExpression/usedLibraries"/>
+    </genClasses>
+    <genClasses ecoreClass="constraints.ecore#//NaturalLanguageExpression"/>
+    <genClasses ecoreClass="constraints.ecore#//ServiceDescriptor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute constraints.ecore#//ServiceDescriptor/serviceClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute constraints.ecore#//ServiceDescriptor/providerId"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

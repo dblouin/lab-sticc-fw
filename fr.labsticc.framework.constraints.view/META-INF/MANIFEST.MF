@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC Constraints Framework View Components
+Bundle-SymbolicName: fr.labsticc.framework.constraints.view;singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-Vendor: Lab-STICC UBS
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: fr.labsticc.framework.constraints.core,
+ fr.labsticc.framework.core.exception,
+ fr.labsticc.framework.core.util,
+ org.eclipse.core.commands.common,
+ org.eclipse.jface.text,
+ org.eclipse.jface.text.contentassist,
+ org.eclipse.jface.text.presentation,
+ org.eclipse.jface.text.rules,
+ org.eclipse.jface.text.source,
+ org.eclipse.jface.viewers,
+ org.eclipse.osgi.util;version="1.1.0",
+ org.eclipse.swt,
+ org.eclipse.swt.custom,
+ org.eclipse.swt.events,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.layout,
+ org.eclipse.swt.widgets
+Bundle-ActivationPolicy: lazy
+Export-Package: fr.labsticc.framework.constraints.view,
+ fr.labsticc.framework.constraints.view.i18n
