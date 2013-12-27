@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="resourceHandlers" name="resourceHandlers" schema="schema/resourceHandlers.exsd"/>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="fr.labsticc.framework.emf.contribution.navigate"
+            objectClass="org.eclipse.emf.ecore.ENamedElement">
+         <action
+               class="fr.labsticc.framework.emf.view.ide.GotoElementActionDelegate"
+               enablesFor="1"
+               id="fr.labsticc.framework.emf.view.ide.GotoElementActionDelegate"
+               label="Go to element...">
+         </action>
+      </objectContribution>
+      <objectContribution
+            id="fr.labsticc.framework.emf.contribution.navigate"
+            objectClass="org.eclipse.emf.ecore.EObject">
+         <action
+               class="fr.labsticc.framework.emf.view.ide.GotoTypeActionDelegate"
+               enablesFor="1"
+               id="fr.labsticc.framework.emf.view.ide.GotoTypeActionDelegate"
+               label="Go to type">
+            <enablement>
+               <or>
+                  <objectClass
+                        name="org.eclipse.emf.ecore.EClass">
+                  </objectClass>
+                  <objectClass
+                        name="org.eclipse.emf.ecore.EStructuralFeature">
+                  </objectClass>
+               </or>
+            </enablement>
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
