@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="compatibilityUpdaters" name="compatibilityUpdaters" schema="schema/compatibilityUpdaters.exsd"/>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="fr.labsticc.framework.compatibility.Startup"></startup>
+   </extension>
+
+</plugin>

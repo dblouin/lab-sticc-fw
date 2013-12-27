@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC Compatibility Framework
+Bundle-SymbolicName: fr.labsticc.framework.compatibility;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: fr.labsticc.framework.compatibility.Activator
+Bundle-Vendor: Lab-STICC UBS
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui;bundle-version="3.6.2"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: fr.labsticc.framework.core.exception,
+ fr.labsticc.framework.core.util,
+ fr.labsticc.framework.ide.resource,
+ fr.labsticc.framework.ide.util,
+ org.eclipse.core.resources,
+ org.eclipse.jface.dialogs,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui.actions,
+ org.slf4j
+Export-Package: fr.labsticc.framework.compatibility
