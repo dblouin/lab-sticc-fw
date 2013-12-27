@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SL4J 12
+Bundle-SymbolicName: org.slf4j.log4j12
+Bundle-Version: 1.5.8
+Export-Package: org.apache.commons.logging,
+ org.apache.commons.logging.impl,
+ org.slf4j,
+ org.slf4j.helpers,
+ org.slf4j.impl,
+ org.slf4j.spi
+Require-Bundle: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
