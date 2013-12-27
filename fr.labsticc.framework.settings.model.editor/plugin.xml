@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="fr.labsticc.framework.settings.model.settings.presentation.SettingsModelWizardID"
+            name="%_UI_SettingsModelWizard_label"
+            class="fr.labsticc.framework.settings.model.settings.presentation.SettingsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SettingsModelFile.gif">
+         <description>%_UI_SettingsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="fr.labsticc.framework.settings.model.settings.presentation.SettingsEditorID"
+            name="%_UI_SettingsEditor_label"
+            icon="icons/full/obj16/SettingsModelFile.gif"
+            extensions="settings"
+            class="fr.labsticc.framework.settings.model.settings.presentation.SettingsEditor"
+            contributorClass="fr.labsticc.framework.settings.model.settings.presentation.SettingsActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

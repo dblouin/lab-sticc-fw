@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings:SettingsSpecification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:settings="http:///www.lab-sticc.fr/settings">
+  <languages name="AADL">
+    <packages href="http://aadl.info/AADL/2.0#/"/>
+    <packages href="http://aadl.info/AADL/2.0/instance#/"/>
+    <fileExtensions>aadl2</fileExtensions>
+    <fileExtensions>aaxl2</fileExtensions>
+  </languages>
+  <languages id="RDAL" name="RDAL">
+    <packages href="http:///www.open-people.fr/rdal/core#/"/>
+    <fileExtensions>rdal</fileExtensions>
+  </languages>
+  <languages id="" name="URN" description="The User Requirements Notation ITU Standard">
+    <packages href="platform:/plugin/seg.jUCMNav/src/seg/jUCMNav/emf/grl.ecore#/"/>
+    <packages href="platform:/plugin/seg.jUCMNav/src/seg/jUCMNav/emf/ucm.ecore#/"/>
+    <packages href="platform:/plugin/seg.jUCMNav/src/seg/jUCMNav/emf/ucmscenarios.ecore#/"/>
+    <packages href="platform:/plugin/seg.jUCMNav/src/seg/jUCMNav/emf/urn.ecore#/"/>
+    <packages href="platform:/plugin/seg.jUCMNav/src/seg/jUCMNav/emf/urncore.ecore#/"/>
+    <fileExtensions>jucm</fileExtensions>
+  </languages>
+  <languageAssociations id="aadl" name="aadl" language="//@languages.0">
+    <typesAssociations id="satisfiedBy" name="satisfiedBy" description="">
+      <property href="http:///www.open-people.fr/rdal/core#//ModelElementReference/modelElement"/>
+      <associatedTypes href="http://aadl.info/AADL/2.0#//ComponentClassifier"/>
+      <associatedTypes href="http://aadl.info/AADL/2.0/instance#//ComponentInstance"/>
+    </typesAssociations>
+    <typesAssociations id="satisfiedByContainers" name="satisfiedByContainers" description="" containers="true">
+      <property href="http:///www.open-people.fr/rdal/core#//ModelElementReference/modelElement"/>
+      <associatedTypes href="http://aadl.info/AADL/2.0#//AadlPackage"/>
+      <associatedTypes href="http://aadl.info/AADL/2.0#//PackageSection"/>
+      <associatedTypes href="http://aadl.info/AADL/2.0#//Subcomponent"/>
+    </typesAssociations>
+    <typesAssociations id="specifies" name="specifies" description="">
+      <property href="http:///www.open-people.fr/rdal/core#//Specification/specifies"/>
+      <associatedTypes href="http://aadl.info/AADL/2.0#//AadlPackage"/>
+      <associatedTypes href="http://aadl.info/AADL/2.0/instance#//SystemInstance"/>
+    </typesAssociations>
+    <typesAssociations id="tracedTo" name="tracedTo">
+      <property href="http:///www.open-people.fr/rdal/core#//ContractualElement/tracedTo"/>
+      <associatedTypes href="http://aadl.info/AADL/2.0#//NamedElement"/>
+    </typesAssociations>
+  </languageAssociations>
+  <languageAssociations id="rdal" name="rdal" language="//@languages.1">
+    <typesAssociations id="tracedTo" name="tracedTo">
+      <property href="http:///www.open-people.fr/rdal/core#//ContractualElement/tracedTo"/>
+      <associatedTypes href="http:///www.open-people.fr/rdal/core#//IdentifiedElement"/>
+    </typesAssociations>
+  </languageAssociations>
+</settings:SettingsSpecification>

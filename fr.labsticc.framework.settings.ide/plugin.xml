@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="settingsModelDefaultLocation" name="settingsModelDefaultLocation" schema="schema/settingsModelDefaultLocation.exsd"/>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="fr.labsticc.framework.settings.ide.SettingsPreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="fr.labsticc.framework.settings.ide.view.SettingsPreferencePage"
+            id="fr.labsticc.framework.settings.ide"
+            name="Settings Model">
+      </page>
+   </extension>
+
+</plugin>

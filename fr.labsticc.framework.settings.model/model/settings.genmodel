@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/fr.labsticc.framework.settings.model/src"
+    modelPluginID="fr.labsticc.framework.settings.model" modelName="Settings" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/fr.labsticc.framework.constraints.model/model/constraints.genmodel#//constraints">
+  <foreignModel>settings.ecore</foreignModel>
+  <genPackages prefix="Settings" basePackage="fr.labsticc.framework.settings.model"
+      disposableProviderFactory="true" ecorePackage="settings.ecore#/">
+    <genClasses image="false" ecoreClass="settings.ecore#//IdentifiedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute settings.ecore#//IdentifiedElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute settings.ecore#//IdentifiedElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute settings.ecore#//IdentifiedElement/description"/>
+    </genClasses>
+    <genClasses ecoreClass="settings.ecore#//ModelingLanguageAssociations">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference settings.ecore#//ModelingLanguageAssociations/specification"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference settings.ecore#//ModelingLanguageAssociations/language"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference settings.ecore#//ModelingLanguageAssociations/typesAssociations"/>
+    </genClasses>
+    <genClasses ecoreClass="settings.ecore#//SettingsSpecification">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference settings.ecore#//SettingsSpecification/languages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference settings.ecore#//SettingsSpecification/languageAssociations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference settings.ecore#//SettingsSpecification/categoryAssociations"/>
+    </genClasses>
+    <genClasses ecoreClass="settings.ecore#//PropertyToTypesAssociation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference settings.ecore#//PropertyToTypesAssociation/associatedTypes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference settings.ecore#//PropertyToTypesAssociation/parent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute settings.ecore#//PropertyToTypesAssociation/containers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference settings.ecore#//PropertyToTypesAssociation/condition"/>
+    </genClasses>
+    <genClasses ecoreClass="settings.ecore#//ModelingLanguage">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference settings.ecore#//ModelingLanguage/specification"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference settings.ecore#//ModelingLanguage/packages"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute settings.ecore#//ModelingLanguage/fileExtensions"/>
+    </genClasses>
+    <genClasses ecoreClass="settings.ecore#//Category">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference settings.ecore#//Category/subCategories"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference settings.ecore#//Category/parentCategory"/>
+    </genClasses>
+    <genClasses ecoreClass="settings.ecore#//PropertyToCategoriesAssociation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference settings.ecore#//PropertyToCategoriesAssociation/associatedCategories"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="settings.ecore#//PropertyAssociation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference settings.ecore#//PropertyAssociation/property"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
