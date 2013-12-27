@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC Lute Constraints View Extension
+Bundle-SymbolicName: fr.labsticc.framework.constraints.lute.view;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Lab-STICC UBS
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.ui
+Import-Package: com.rockwellcollins.atc.meta.lute,
+ fr.labsticc.framework.constraints.view,
+ org.eclipse.core.runtime;version="3.4.0",
+ org.eclipse.jface.text,
+ org.eclipse.jface.text.rules,
+ org.eclipse.ui.editors.text,
+ org.osgi.framework;version="1.6.0"
+Bundle-ActivationPolicy: lazy
+Export-Package: fr.labsticc.framework.constraints.lute.view

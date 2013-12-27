@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.ui.editors.text.TextEditor"
+            default="true"
+            extensions="lute"
+            id="fr.labsticc.framework.constraints.lute.view.defaultLuteEditor"
+            name="Default Lute Editor">
+      </editor>
+   </extension>
+
+</plugin>
