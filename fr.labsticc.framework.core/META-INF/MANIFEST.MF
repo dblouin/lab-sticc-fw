@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC Core Development Framework
+Bundle-SymbolicName: fr.labsticc.framework.core;singleton:=true
+Bundle-Version: 1.0.6.qualifier
+Bundle-Vendor: Lab-STICC UBS
+Bundle-ActivationPolicy: lazy
+Export-Package: fr.labsticc.framework.core,
+ fr.labsticc.framework.core.exception,
+ fr.labsticc.framework.core.externalcommand,
+ fr.labsticc.framework.core.message,
+ fr.labsticc.framework.core.object,
+ fr.labsticc.framework.core.persistence,
+ fr.labsticc.framework.core.settings,
+ fr.labsticc.framework.core.transformation,
+ fr.labsticc.framework.core.util,
+ fr.labsticc.framework.core.xml
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.slf4j
+Require-Bundle: org.apache.log4j;bundle-version="1.2.15"
+
+
