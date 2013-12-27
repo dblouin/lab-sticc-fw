@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="fr.labsticc.framework.constraints.examples.category"
+            name="%exampleCategoryName"
+            parentCategory="org.eclipse.ui.Examples">
+      </category>
+      <wizard
+            canFinishEarly="true"
+            category="org.eclipse.ui.Examples/fr.labsticc.framework.constraints.examples.category"
+            class="fr.labsticc.framework.constraints.examples.ConstraintsExampleWizard"
+            hasPages="false"
+            icon="icons/constraintPanelView.gif"
+            id="fr.labsticc.framework.constraints.examples.ConstraintsExampleWizard"
+            name="%exampleWizardName"
+            project="true">
+         <description>
+            %exampleWizardDescr
+         </description>
+      </wizard>
+   </extension>
+
+</plugin>

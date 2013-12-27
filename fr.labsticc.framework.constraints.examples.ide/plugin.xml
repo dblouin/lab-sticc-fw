@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Constraints"
+            id="fr.labsticc.framework.constraints.examples.ide">
+      </category>
+      <view
+            name="Lab-STICC Constraints Framework Example View"
+            icon="icons/constraintPanelView.gif"
+            category="fr.labsticc.framework.constraints.examples.ide"
+            class="fr.labsticc.framework.constraints.examples.ide.views.ExamplesConstraintConsoleView"
+            id="fr.labsticc.framework.constraints.examples.ide.views.ConstraintsExamplesView">
+      </view>
+   </extension>
+
+</plugin>

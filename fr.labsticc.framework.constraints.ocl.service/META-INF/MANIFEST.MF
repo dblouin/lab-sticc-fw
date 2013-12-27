@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC OCL Constraints Services Extension
+Bundle-SymbolicName: fr.labsticc.framework.constraints.ocl.service;singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-Vendor: Lab-STICC UBS
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: fr.labsticc.framework.constraints.ocl.service
+Import-Package: fr.labsticc.framework.constraints.core,
+ fr.labsticc.framework.constraints.core.exception,
+ fr.labsticc.framework.constraints.service,
+ fr.labsticc.framework.core.exception,
+ fr.labsticc.framework.settings.model.settings,
+ org.eclipse.emf.common.notify,
+ org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.emf.ecore.resource.impl,
+ org.eclipse.emf.ecore.util,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.emf.edit.provider,
+ org.eclipse.ocl,
+ org.eclipse.ocl.ecore,
+ org.eclipse.ocl.expressions,
+ org.eclipse.ocl.helper,
+ org.eclipse.ocl.types,
+ org.eclipse.ocl.util,
+ org.eclipse.ocl.utilities,
+ org.slf4j
+Bundle-ActivationPolicy: lazy

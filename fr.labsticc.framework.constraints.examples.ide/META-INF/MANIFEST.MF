@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC Constraints Language Framework Demo
+Bundle-SymbolicName: fr.labsticc.framework.constraints.examples.ide; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: fr.labsticc.framework.constraints.examples.ide.Activator
+Bundle-Vendor: Lab-STICC UBS
+Require-Bundle: org.eclipse.ui,
+ fr.labsticc.framework.constraints.ocl.view;bundle-version="2.1.0",
+ fr.labsticc.framework.constraints.ocl.service;bundle-version="2.1.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: fr.labsticc.framework.constraints.ide,
+ fr.labsticc.framework.constraints.ide.view,
+ fr.labsticc.framework.constraints.model.constraints,
+ fr.labsticc.framework.constraints.view,
+ fr.labsticc.framework.core.exception,
+ fr.labsticc.framework.ide.log,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.common.notify,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.edit.domain,
+ org.osgi.framework,
+ org.slf4j

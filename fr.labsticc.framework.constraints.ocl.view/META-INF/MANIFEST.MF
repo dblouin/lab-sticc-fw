@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC OCL Constraints View Extension
+Bundle-SymbolicName: fr.labsticc.framework.constraints.ocl.view;singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-Vendor: Lab-STICC UBS
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: fr.labsticc.framework.constraints.view,
+ org.eclipse.jface.text,
+ org.eclipse.jface.text.rules,
+ org.eclipse.swt,
+ org.eclipse.ui.editors.text
+Require-Bundle: org.eclipse.ui
