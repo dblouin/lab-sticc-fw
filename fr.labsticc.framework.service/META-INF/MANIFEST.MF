@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab-STICC Services Development Framework
+Bundle-SymbolicName: fr.labsticc.framework.service
+Bundle-Version: 1.0.6.qualifier
+Bundle-ActivationPolicy: lazy
+Export-Package: fr.labsticc.framework.service,
+ fr.labsticc.framework.service.config,
+ fr.labsticc.framework.service.localization,
+ fr.labsticc.framework.service.persistence,
+ fr.labsticc.framework.service.settings,
+ fr.labsticc.framework.service.transformation,
+ fr.labsticc.framework.service.validation
+Bundle-Vendor: Lab-STICC UBS
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: fr.labsticc.framework.core,
+ fr.labsticc.framework.core.exception,
+ fr.labsticc.framework.core.externalcommand,
+ fr.labsticc.framework.core.message,
+ fr.labsticc.framework.core.object,
+ fr.labsticc.framework.core.persistence,
+ fr.labsticc.framework.core.settings,
+ fr.labsticc.framework.core.transformation,
+ fr.labsticc.framework.core.util,
+ org.slf4j
