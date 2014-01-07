@@ -31,22 +31,9 @@ import org.osate.aadl2.NamedElement;
 import org.osate.aadl2.instance.InstanceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.rockwellcollins.atc.meta.lute.AADLVal;
-import com.rockwellcollins.atc.meta.lute.BoolVal;
-import com.rockwellcollins.atc.meta.lute.Command;
-import com.rockwellcollins.atc.meta.lute.Environment;
-import com.rockwellcollins.atc.meta.lute.Expr;
-import com.rockwellcollins.atc.meta.lute.IntVal;
-import com.rockwellcollins.atc.meta.lute.LuteException;
-import com.rockwellcollins.atc.meta.lute.LuteInterpreter;
-import com.rockwellcollins.atc.meta.lute.LuteLexer;
-import com.rockwellcollins.atc.meta.lute.LuteParser;
-import com.rockwellcollins.atc.meta.lute.RangeVal;
-import com.rockwellcollins.atc.meta.lute.RealVal;
-import com.rockwellcollins.atc.meta.lute.SetVal;
-import com.rockwellcollins.atc.meta.lute.StringVal;
-import com.rockwellcollins.atc.meta.lute.Val;
+import org.osate.analysis.lute.LuteException;
+import org.osate.analysis.lute.LuteInterpreter;
+import org.osate.analysis.lute.language.*;
 
 import fr.labsticc.framework.constraints.core.ICompletionProposal;
 import fr.labsticc.framework.constraints.core.exception.ConstraintEvaluationException;

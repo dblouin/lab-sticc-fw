@@ -19,8 +19,8 @@ import org.eclipse.jface.text.rules.WordRule;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
+import org.osate.analysis.lute.LuteConstants;
 
-import com.rockwellcollins.atc.meta.lute.LuteConstants;
 
 /**
  * Rule to match Lute keywords.
