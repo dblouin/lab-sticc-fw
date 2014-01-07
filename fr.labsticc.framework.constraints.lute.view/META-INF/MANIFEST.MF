@@ -9,10 +9,10 @@ Require-Bundle: org.eclipse.ui,
  org.osate.analysis.lute
 Import-Package: 
  fr.labsticc.framework.constraints.view,
- org.eclipse.core.runtime;version="3.4.0",
+ org.eclipse.core.runtime,
  org.eclipse.jface.text,
  org.eclipse.jface.text.rules,
  org.eclipse.ui.editors.text,
- org.osgi.framework;version="1.6.0"
+ org.osgi.framework
 Bundle-ActivationPolicy: lazy
 Export-Package: fr.labsticc.framework.constraints.lute.view
