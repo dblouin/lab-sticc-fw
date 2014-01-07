@@ -59,6 +59,7 @@ Import-Package: fr.labsticc.framework.core.exception,
  org.slf4j
 Bundle-Activator: fr.labsticc.framework.emf.view.EmfFwIdePlugin
 Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.commands
 Export-Package: fr.labsticc.framework.emf.view,
  fr.labsticc.framework.emf.view.editor,
  fr.labsticc.framework.emf.view.ide
