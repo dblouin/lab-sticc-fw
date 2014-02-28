@@ -48,6 +48,7 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
@@ -180,17 +181,17 @@ public class EMFUtil {
 		return root;
 	}
 	
-	public static void fillContentOfTypes( 	final Resource p_resource,
-											final Collection<? extends EClassifier> p_supportedTypes,
-											final Collection<EObject> p_elements ) {
+	public static <T extends EObject> void fillContentOfTypes( 	final Resource p_resource,
+																final Collection<? extends EClassifier> p_supportedTypes,
+																final Collection<T> p_elements ) {
 		fillContentOfTypes( p_resource.getAllContents(), p_supportedTypes, p_elements );
 	}
 
-	public static void fillContentOfTypes( 	final EObject p_object,
-											final boolean pb_resolve,
-											final Collection<? extends EClassifier> p_supportedTypes,
-											final Collection<EObject> p_elements,
-											final boolean includeRoot ) {
+	public static <T extends EObject> void fillContentOfTypes( 	final EObject p_object,
+																final boolean pb_resolve,
+																final Collection<? extends EClassifier> p_supportedTypes,
+																final Collection<T> p_elements,
+																final boolean includeRoot ) {
 		final Iterator<EObject> iterator = EcoreUtil.getAllContents( p_object, pb_resolve );
 		fillContentOfTypes( iterator, p_supportedTypes, p_elements );
 		
@@ -199,19 +200,20 @@ public class EMFUtil {
 		}
 	}
 	
-	public static void fillContentOfTypes( 	final Iterator<EObject> p_content,
-											final Collection<? extends EClassifier> p_supportedTypes,
-											final Collection<EObject> p_elements ) {
+	@SuppressWarnings("unchecked")
+	public static <T extends EObject> void fillContentOfTypes( 	final Iterator<EObject> p_content,
+																final Collection<? extends EClassifier> p_supportedTypes,
+																final Collection<T> p_elements ) {
 		while ( p_content.hasNext() ) {
 			final EObject eObject = p_content.next();
 			
 			if ( p_supportedTypes == null ) {
-				p_elements.add( eObject );
+				p_elements.add( (T) eObject );
 			}
 			else {
 				for ( final EClassifier classifier : p_supportedTypes ) {
 					if ( classifier.isInstance( eObject ) ) {
-						p_elements.add( eObject );
+						p_elements.add( (T) eObject );
 						
 						break;
 					}
@@ -443,12 +445,18 @@ public class EMFUtil {
 		return null;
 	}
 	
-	public static boolean isReadOnly( final Resource p_resource ) {
-		final ResourceSet resSet = p_resource.getResourceSet();
-		final URIConverter converter = resSet.getURIConverter();
-		final Map<String, ? extends Object> resAtt = converter.getAttributes( p_resource.getURI(), null );
+	public static boolean isReadOnly( 	final URI p_uri,
+										final URIConverter p_uriConverter ) {
+		final Map<String, ? extends Object> resAtt = p_uriConverter.getAttributes( p_uri, null );
 		
 		return Boolean.TRUE.equals( resAtt.get( URIConverter.ATTRIBUTE_READ_ONLY ) );
+	}
+	
+	public static boolean isReadOnly( final Resource p_resource ) {
+		final ResourceSet resSet = p_resource.getResourceSet();
+		final URIConverter converter = resSet == null ? new ExtensibleURIConverterImpl() : resSet.getURIConverter();
+		
+		return isReadOnly( p_resource.getURI(), converter );
 	}
 	
 	public static void setReadOnly( final Resource p_resource ) 
