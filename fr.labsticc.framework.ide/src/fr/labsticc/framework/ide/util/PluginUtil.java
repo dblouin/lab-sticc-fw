@@ -25,8 +25,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -258,6 +261,40 @@ public class PluginUtil {
 			addNature(project, p_natureId);
 		}
 	}
+	
+	public static boolean containsProject( 	final Collection<IProject> p_projects,
+											final IProject p_project ) {
+		final String projName = p_project.getName();
+		
+		for ( final IProject refProj : p_projects ) {
+			if ( projName.equals( refProj.getName() ) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static void addReferencedProjects( 	final IProject p_project,
+												final Set<IProject> p_projects )
+	throws CoreException {
+		if ( !p_projects.isEmpty() ) {
+			final IProjectDescription descr = p_project.getDescription();
+			final Set<IProject> refProjects = new HashSet<IProject>();
+			refProjects.addAll( Arrays.asList( p_project.getReferencedProjects() ) );
+			final String projName = p_project.getName();
+			
+			for ( final IProject project : p_projects ) {
+				// Avoid self referring projects.
+				if ( projName != project.getName() && !containsProject( refProjects, project ) ) {
+					refProjects.add( project );
+				}
+			}
+			
+			descr.setReferencedProjects( refProjects.toArray( new IProject[ refProjects.size() ] ) );
+			p_project.setDescription(descr, null);
+		}
+	}
 
 	public static boolean addNature(	final IProject p_project,
 										final String p_natureId )
@@ -323,5 +360,31 @@ public class PluginUtil {
 		}
 		
 		return refProjects;
+	}
+	
+	public static void setReadOnly( final IResource p_res,
+									final boolean pb_readOnly,
+									final boolean pb_recursive ) 
+	throws CoreException {
+		if ( p_res.isAccessible() ) {
+			final ResourceAttributes resAtt = p_res.getResourceAttributes();
+		
+			if ( pb_readOnly != resAtt.isReadOnly() ) {
+				resAtt.setReadOnly( pb_readOnly );
+				p_res.setResourceAttributes( resAtt );
+			}
+			
+			if ( pb_recursive && p_res instanceof IContainer ) {
+				setReadOnly( (IContainer) p_res, pb_readOnly );
+			}
+		}
+	}
+	
+	private static void setReadOnly( 	final IContainer p_container,
+										final boolean pb_readOnly ) 
+	throws CoreException {
+		for ( final IResource res : p_container.members() ) {
+			setReadOnly( res, pb_readOnly, true );
+		}
 	}
 }
