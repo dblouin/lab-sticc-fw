@@ -445,6 +445,10 @@ public class EMFUtil {
 		return null;
 	}
 	
+	public static boolean isReadOnly( final URI p_uri ) {
+		return isReadOnly( p_uri, new ExtensibleURIConverterImpl() );
+	}
+	
 	public static boolean isReadOnly( 	final URI p_uri,
 										final URIConverter p_uriConverter ) {
 		final Map<String, ? extends Object> resAtt = p_uriConverter.getAttributes( p_uri, null );
