@@ -59,7 +59,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.xml.sax.SAXParseException;
 
+import fr.labsticc.framework.core.util.ClassHierarchyComparator;
+
 public class EMFUtil {
+
+	private static final ClassHierarchyComparator classHierarchyComp = new ClassHierarchyComparator();
 
 	public static EFactory getEFactory( final Class<?> p_dataType ) {
 		final EPackage emfPackage = getEPackage( p_dataType );
@@ -486,11 +490,79 @@ public class EMFUtil {
 			try {
 				p_sourceResource.save( outStr, p_options );
 				final ByteArrayInputStream inputStr = new ByteArrayInputStream( outStr.toByteArray() );
+				
+				// If the resource was already loaded, it will not be loaded with the new content so
+				// unload it first.
+				p_targetResource.unload();
 				p_targetResource.load( inputStr, null );
 			}
 			catch( final IOException p_ex ) {
 				throw new RuntimeException( p_ex );
 			}
 		}
+	}
+	
+	public static final boolean setIntoParent( 	final EObject p_parent,
+												final Object p_child,
+												final EStructuralFeature p_abstractFeature ) {
+		final EStructuralFeature featureToSet = getConcreteFeature( p_parent, p_abstractFeature, p_child );
+		
+		if ( featureToSet == null ) {
+			return false;
+		}
+
+		
+		if ( featureToSet.isMany() ) {
+			@SuppressWarnings("unchecked")
+			final EList<Object> targetList = (EList<Object>) p_parent.eGet( featureToSet );
+			targetList.add( p_child ); 
+		}
+		else {
+			p_parent.eSet( featureToSet, p_child );
+		}
+		
+		return true;
+	}
+	
+	public static EStructuralFeature getConcreteFeature( 	final Object p_sourceInstanceObject,
+															final EStructuralFeature p_feature,
+															Object p_targetObject ) {
+		EStructuralFeature closestFeature = p_feature;
+		Class<?> closestFeatureClass = closestFeature.getEType().getInstanceClass();
+
+		if ( closestFeature.isDerived() ) {
+			if ( p_targetObject == null ) {
+				if ( p_feature.isMany() ) {
+					throw new IllegalStateException( "Features with multiplicity greater than 1 not handled." );
+				}
+				
+				final Object actualObject = ( (EObject) p_sourceInstanceObject ).eGet( p_feature );
+				
+				if ( actualObject == p_targetObject ) {
+					// Return a null feature meaning that nothing needs to be set.
+					return null;
+				}
+				
+				p_targetObject = actualObject;
+			}
+
+			final EClass sourceObjectClass = ( (EObject) p_sourceInstanceObject ).eClass();
+			
+			for ( final EStructuralFeature feature : sourceObjectClass.getEAllStructuralFeatures() ) {
+				if ( feature.isChangeable() && !feature.isDerived() && feature.getEType().isInstance( p_targetObject ) ) {
+					final Class<?> currentFeatureClass = feature.getEType().getInstanceClass();
+					final int comparison = classHierarchyComp.compare( closestFeatureClass, currentFeatureClass );
+					
+					// If the classes are not related (equals), use the current class because it ensure the starting feature is replaced with
+					// one that is changeable.
+					if ( comparison >= 0 ) {
+						closestFeature = feature;
+						closestFeatureClass = closestFeature.getEType().getInstanceClass();
+					}
+				}
+			}
+		}
+
+		return closestFeature;
 	}
 }

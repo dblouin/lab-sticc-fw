@@ -32,6 +32,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -40,6 +41,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.util.ManifestElement;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkingSet;
+import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
@@ -386,5 +389,45 @@ public class PluginUtil {
 		for ( final IResource res : p_container.members() ) {
 			setReadOnly( res, pb_readOnly, true );
 		}
+	}
+	
+	public static IWorkingSet getWorkingSet( final String p_workingSetName ) {
+		for ( final IWorkingSet workSet : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets() ) {
+			if ( p_workingSetName.equals( workSet.getName() ) ) {
+				return workSet;
+			}
+		}
+		
+		return null;
+	}
+
+	public static boolean addToWorkingSet( 	final IProject p_project,
+											final String p_workingSetName ) {
+		final IWorkingSet foundWorkSet = getWorkingSet( p_workingSetName );
+
+		if ( foundWorkSet != null ) {
+			final List<IAdaptable> wsProjects = new ArrayList<IAdaptable>( Arrays.asList( foundWorkSet.getElements() ) );
+			wsProjects.add( p_project );
+			foundWorkSet.setElements( wsProjects.toArray( new IAdaptable[ wsProjects.size() ] ) );
+			
+			return true;
+		}
+		
+		return false;
+	}
+
+	public static boolean removeFromWorkingSet( final IProject p_project,
+												final String p_workingSetName ) {
+		final IWorkingSet foundWorkSet = getWorkingSet( p_workingSetName );
+
+		if ( foundWorkSet != null ) {
+			final List<IAdaptable> wsProjects = new ArrayList<IAdaptable>( Arrays.asList( foundWorkSet.getElements() ) );
+			final boolean removed = wsProjects.remove( p_project );
+			foundWorkSet.setElements( wsProjects.toArray( new IAdaptable[ wsProjects.size() ] ) );
+			
+			return removed;
+		}
+		
+		return false;
 	}
 }
