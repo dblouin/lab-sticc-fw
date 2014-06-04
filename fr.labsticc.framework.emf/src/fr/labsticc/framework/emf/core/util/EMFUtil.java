@@ -565,4 +565,9 @@ public class EMFUtil {
 
 		return closestFeature;
 	}
+	
+	public static boolean dependsOn( 	final Resource p_resource1,
+										final Resource p_resource2 ) {
+		return ResourceDepComparator.dependsOn( p_resource1, p_resource2 );
+	}
 }
