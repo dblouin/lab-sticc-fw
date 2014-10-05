@@ -59,6 +59,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.xml.sax.SAXParseException;
 
+import fr.labsticc.framework.core.exception.ResourceAccessException;
 import fr.labsticc.framework.core.util.ClassHierarchyComparator;
 
 public class EMFUtil {
@@ -494,7 +495,7 @@ public class EMFUtil {
 				// If the resource was already loaded, it will not be loaded with the new content so
 				// unload it first.
 				p_targetResource.unload();
-				p_targetResource.load( inputStr, null );
+				p_targetResource.load( inputStr, p_targetResource.getResourceSet().getLoadOptions() );
 			}
 			catch( final IOException p_ex ) {
 				throw new RuntimeException( p_ex );
@@ -569,5 +570,85 @@ public class EMFUtil {
 	public static boolean dependsOn( 	final Resource p_resource1,
 										final Resource p_resource2 ) {
 		return ResourceDepComparator.dependsOn( p_resource1, p_resource2 );
+	}
+
+	/**
+	 * Return a collection of objects not contained in the specified resource and referred by the
+	 * specified object, either directly or through references to other objects contained in the
+	 * specified resource.
+	 * @param p_containingRes
+	 * @param p_object
+	 * @return
+	 * @throws ResourceAccessException
+	 */
+	public static Collection<EObject> externalReferences(	final Resource p_containingRes,
+															final EObject p_object )
+	throws ResourceAccessException {
+		return externalReferences( p_containingRes, p_object, new HashSet<EObject>() );
+	}
+
+	/**
+	 * Return a collection of objects not contained in the specified resource and referred by the
+	 * specified object, either directly or through references to other objects contained in the
+	 * specified resource.
+	 * @param p_parentRefRes
+	 * @param p_object
+	 * @param p_travObjects
+	 * @return
+	 * @throws ResourceAccessException
+	 */
+	private static Collection<EObject> externalReferences(	final Resource p_parentResource,
+															final EObject p_object,
+															final Set<EObject> p_travObjects )
+	throws ResourceAccessException {
+		final Collection<EObject> refs = new HashSet<EObject>();
+		
+		if ( !p_travObjects.contains( p_object ) ) {
+			p_travObjects.add( p_object );
+			final Resource crossRes = p_object.eResource();
+			
+			if ( crossRes == null ) {
+				throw new ResourceAccessException( 	"Unresolved resource for object " + EcoreUtil.getURI( p_object ) );
+			}
+	
+			// The object is outside so we need it
+			if ( crossRes != p_parentResource ) {
+				refs.add( p_object );
+			}
+			else {
+				// The object is inside so we need to see if any of its cross references has a reference to the outside
+				final EObject container = p_object.eContainer();
+				
+				for ( final EObject object : p_object.eCrossReferences() ) {
+					if ( object != container ) {
+						refs.addAll( externalReferences( p_parentResource, object, p_travObjects ) );
+					}
+				}
+			}
+		}
+		
+		return refs;
+	}
+
+	public static void unloadResource( 	final Resource p_resource,
+										final boolean pb_unloadDepRes ) {
+		if ( pb_unloadDepRes ) {
+			// Remove all depending resources
+			for ( final Resource cachedRes : new ArrayList<Resource>( p_resource.getResourceSet().getResources() ) ) {
+				if ( cachedRes != p_resource && dependsOn( cachedRes, p_resource ) ) {
+					unloadResource( cachedRes );
+				}
+			}
+		}
+		
+		unloadResource( p_resource );
+	}
+
+	public static void unloadResource( final Resource p_resource ) {
+		if ( p_resource.isLoaded() ) {
+			p_resource.unload();
+		}
+		
+		p_resource.getResourceSet().getResources().remove( p_resource );
 	}
 }
