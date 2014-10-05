@@ -50,7 +50,7 @@ public class EMFValidationAS extends EObjectValidator implements IEMFValidationA
 	private void checkDiagnostic( final BasicDiagnostic p_diagnostic ) 
 	throws FunctionalException {
 	    if ( p_diagnostic.getSeverity() != Diagnostic.OK ) {
-	    	throw new FunctionalException( p_diagnostic, p_diagnostic.getMessage(), null );
+	    	throw new FunctionalException( p_diagnostic, p_diagnostic.toString(), null );
 	    }
 	}
 	
