@@ -651,4 +651,20 @@ public class EMFUtil {
 		
 		p_resource.getResourceSet().getResources().remove( p_resource );
 	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getFirstObjectOfType(	final Resource p_resource,
+												final EClassifier p_type ) {
+		final Iterator<EObject> contentIt = p_resource.getAllContents();
+		
+		while ( contentIt.hasNext() ) {
+			final EObject element = contentIt.next();
+
+			if ( p_type.isInstance( element ) ) {
+		        return (T) element;
+		     }
+		}
+		
+		return null;
+	}
 }
