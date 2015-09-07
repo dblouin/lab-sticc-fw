@@ -128,7 +128,7 @@ public class EMFResourceSelectionDialog extends ResourceDialog {
 					for ( final String ext : fileExtensions ) {
 						final String resExt = ( (IResource) p_element ).getFileExtension();
 						
-						if ( resExt == null || ext.equalsIgnoreCase( "*." + resExt ) ) {
+						if ( resExt == null || ext.equalsIgnoreCase( resExt ) ) {
 							return true;
 						}
 					}
