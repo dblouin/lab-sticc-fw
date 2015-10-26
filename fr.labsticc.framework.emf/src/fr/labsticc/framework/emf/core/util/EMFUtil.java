@@ -48,7 +48,6 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
@@ -451,7 +450,7 @@ public class EMFUtil {
 	}
 	
 	public static boolean isReadOnly( final URI p_uri ) {
-		return isReadOnly( p_uri, new ExtensibleURIConverterImpl() );
+		return isReadOnly( p_uri, URIConverter.INSTANCE/*new ExtensibleURIConverterImpl()*/ );
 	}
 	
 	public static boolean isReadOnly( 	final URI p_uri,
@@ -463,7 +462,7 @@ public class EMFUtil {
 	
 	public static boolean isReadOnly( final Resource p_resource ) {
 		final ResourceSet resSet = p_resource.getResourceSet();
-		final URIConverter converter = resSet == null ? new ExtensibleURIConverterImpl() : resSet.getURIConverter();
+		final URIConverter converter = resSet == null ? URIConverter.INSTANCE/*new ExtensibleURIConverterImpl()*/ : resSet.getURIConverter();
 		
 		return isReadOnly( p_resource.getURI(), converter );
 	}
