@@ -439,17 +439,25 @@ Version 1.0 dated 2006-09-05.
          unpack="false"/>
 
    <plugin
-         id="org.slf4j.log4j12"
+         id="fr.labsticc.framework.service"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.labsticc.framework.service"
+         id="org.slf4j.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.slf4j.impl.log4j12"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>
