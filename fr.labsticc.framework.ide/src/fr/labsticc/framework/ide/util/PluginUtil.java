@@ -241,9 +241,10 @@ public class PluginUtil {
 		}
 	}
 
-	public static boolean removeNature(final IProject p_project,
-			final String p_natureId) throws CoreException {
-		if (p_project.hasNature(p_natureId)) {
+	public static boolean removeNature(		final IProject p_project,
+											final String p_natureId)
+	throws CoreException {
+		if ( p_project.hasNature(p_natureId) && !p_project.getResourceAttributes().isReadOnly() ) {
 			final IProjectDescription descr = p_project.getDescription();
 			final List<String> newNatures = new ArrayList<String>();
 			newNatures.addAll(Arrays.asList(descr.getNatureIds()));
@@ -342,6 +343,20 @@ public class PluginUtil {
 	public static Set<IProject> getReferencedProjects( final IProject p_project )
 	throws CoreException {
 		return getReferencedProjects( p_project, new HashSet<String>() );
+	}
+
+	public static Set<IProject> getReferencedProjects( final Collection<IProject> p_projects )
+	throws CoreException {
+		final Set<IProject> allProjects = new LinkedHashSet<IProject>();
+
+		for ( final IProject project : p_projects ) {
+			if ( project.isAccessible() ) {
+				allProjects.addAll( PluginUtil.getReferencedProjects( project ) );
+				allProjects.add( project );
+			}
+		}
+		
+		return allProjects;
 	}
 
 	private static Set<IProject> getReferencedProjects( final IProject p_project,

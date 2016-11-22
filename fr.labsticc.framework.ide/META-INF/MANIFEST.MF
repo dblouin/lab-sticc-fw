@@ -47,5 +47,6 @@ Import-Package: fr.labsticc.framework.core,
  org.eclipse.ui.part,
  org.osgi.framework,
  org.slf4j
-Require-Bundle: org.apache.log4j;bundle-version="1.2.15"
+Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
