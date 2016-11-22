@@ -28,12 +28,12 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -162,7 +162,18 @@ public class EMFUtil {
 	}
 	
 	public static boolean isEMFResource( final IResource p_resource ) {
-		return isEMFResource( p_resource.getFileExtension() );
+		if ( isEMFResource( p_resource.getFileExtension() ) ) {
+			return true;
+		}
+		
+		try {
+			convertToEMFResource( p_resource );
+			
+			return true;
+		}
+		catch ( final WrappedException p_ex ) {
+			return false;
+		}
 	}
 	
 	public static boolean isEMFResource( final String p_fileExtension ) {
@@ -270,14 +281,12 @@ public class EMFUtil {
 	 * @param p_resource The eclipse IDE resource.
 	 * @return The corresponding EMF resource if the specified resource is in xmi format.
 	 */
-	public static Resource convertToEMFResource( final IResource p_file )
-	throws CoreException {
+	public static Resource convertToEMFResource( final IResource p_file ) {
 		return convertToEMFResource( p_file, null );
 	}
 
 	public static Resource convertToEMFResource( 	final IResource p_file,
-													ResourceSet p_resourceSet )
-	throws CoreException {
+													ResourceSet p_resourceSet ) {
 		assert p_file != null : "IDE file cannot be null.";
 		final IPath path = p_file.getFullPath();
 		final URI uri = URI.createPlatformResourceURI( path.toString(), false );

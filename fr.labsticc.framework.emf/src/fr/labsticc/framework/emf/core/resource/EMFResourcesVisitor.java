@@ -61,6 +61,7 @@ public class EMFResourcesVisitor extends ExtensionsResourcesVisitor {
 		final Collection<Resource> resources = new ArrayList<Resource>();
 		
 		for ( final IResource resource : getFoundResources() ) {
+//			try {
 			if ( resource instanceof IFile && EMFUtil.isEMFResource( resource ) ) {
 				final Resource emfResource;
 				final IEMFResourceHandler resHandler = findResourceHandler( resource );
@@ -81,6 +82,10 @@ public class EMFResourcesVisitor extends ExtensionsResourcesVisitor {
 					logger.error( "Unable to load resource " + resource.getName(), p_ex );
 				}
 			}
+//			}
+//			catch ( final CoreException p_ex ) {
+//				throw new ResourceAccessException( p_ex );
+//			}
 		}
 		
 		return resources;
