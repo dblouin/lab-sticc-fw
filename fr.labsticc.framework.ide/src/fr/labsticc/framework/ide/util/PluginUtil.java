@@ -99,22 +99,20 @@ public class PluginUtil {
 		return Platform.getBundle(p_pluginId) != null;
 	}
 
-	public static List<IExtension> findDependentExtensions(
-			final IExtension p_ext) throws BundleException {
-		final String requireBundle = (String) Platform
-				.getBundle(p_ext.getNamespaceIdentifier()).getHeaders()
-				.get(Constants.REQUIRE_BUNDLE);
-		final ManifestElement[] elements = ManifestElement.parseHeader(
-				Constants.BUNDLE_CLASSPATH, requireBundle);
-		final IExtensionPoint extensionPoint = Platform.getExtensionRegistry()
-				.getExtensionPoint(p_ext.getExtensionPointUniqueIdentifier());
+	public static List<IExtension> findDependentExtensions( final IExtension p_ext )
+	throws BundleException {
 		final List<IExtension> dependencies = new ArrayList<IExtension>();
+		final String requireBundle = (String) Platform.getBundle(p_ext.getNamespaceIdentifier()).getHeaders().get(Constants.REQUIRE_BUNDLE);
+		
+		if ( requireBundle != null ) {
+			final ManifestElement[] elements = ManifestElement.parseHeader(	Constants.BUNDLE_CLASSPATH, requireBundle );
+			final IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(p_ext.getExtensionPointUniqueIdentifier());
 
-		for (final ManifestElement manifestElement : elements) {
-			for (final IExtension depExt : findExtensionsDeclaredInBundle(
-					extensionPoint, manifestElement.getValue())) {
-				dependencies.add(depExt);
-				dependencies.addAll(findDependentExtensions(depExt));
+			for ( final ManifestElement manifestElement : elements ) {
+				for ( final IExtension depExt : findExtensionsDeclaredInBundle( extensionPoint, manifestElement.getValue() ) ) {
+					dependencies.add(depExt);
+					dependencies.addAll( findDependentExtensions(depExt) );
+				}
 			}
 		}
 
