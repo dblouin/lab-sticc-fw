@@ -11,3 +11,4 @@ Import-Package: fr.labsticc.framework.constraints.view,
  org.eclipse.swt,
  org.eclipse.ui.editors.text
 Require-Bundle: org.eclipse.ui
+Export-Package: fr.labsticc.framework.constraints.ocl.view
