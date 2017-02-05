@@ -1,7 +1,6 @@
 package fr.labsticc.framework.settings.modelinterface.osate;
 
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -10,11 +9,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.osate.aadl2.Aadl2Package;
 import org.osate.aadl2.AadlPackage;
 import org.osate.aadl2.Classifier;
 import org.osate.aadl2.ComponentClassifier;
@@ -39,7 +34,7 @@ import org.osate.aadl2.properties.InvalidModelException;
 import org.osate.aadl2.properties.PropertyDoesNotApplyToHolderException;
 
 import fr.labsticc.framework.settings.model.settings.AssociatedPropertyException;
-import fr.labsticc.framework.settings.model.settings.impl.ModelInterfaceImpl;
+import fr.labsticc.framework.settings.model.settings.impl.AbstractEcoreModelInterface;
 
 /**
  * This is an abstract model interface for AADL to be extended by concrete model interfaces. It has no dependency on UI 
@@ -49,13 +44,10 @@ import fr.labsticc.framework.settings.model.settings.impl.ModelInterfaceImpl;
  * 
  * @author dblouin
  */
-public abstract class AbstractAadlModelInterface extends ModelInterfaceImpl {
+public abstract class AbstractAadlModelInterface extends AbstractEcoreModelInterface {
 	
-	protected Set<String> aadlExtensions;
-
-	protected AbstractAadlModelInterface( final String... p_aadlExtensions ) {
-		aadlExtensions = new HashSet<String>();
-		aadlExtensions.addAll( Arrays.asList( p_aadlExtensions ) );
+	protected AbstractAadlModelInterface() {
+		super( Aadl2Package.eINSTANCE.getElement() );
 	}
 	
 	@Override
@@ -285,24 +277,11 @@ public abstract class AbstractAadlModelInterface extends ModelInterfaceImpl {
 		
 		return new BasicEList<Object>( orderedTypesSet );
 	}
-	
-	protected boolean isModelResourceExtension( final String p_ext ) {
-		return p_ext == null ? false : aadlExtensions.contains( p_ext );
-	}
-	
-	@Override
-	public boolean isModelResource( final Resource p_resource ) {
-		return isModelResource( p_resource.getURI() );
-	}
-
-	protected boolean isModelResource( final URI p_resourceUri ) {
-		return isModelResourceExtension( p_resourceUri.fileExtension() );
-	}
-
-	@Override
-	public boolean isModelElement( final Object p_object ) {
-		return p_object instanceof Element;
-	}
+//
+//	@Override
+//	public boolean isModelElement( final Object p_object ) {
+//		return p_object instanceof Element;
+//	}
 	
 	@Override
 	public String getLanguageName() {
@@ -369,16 +348,5 @@ public abstract class AbstractAadlModelInterface extends ModelInterfaceImpl {
 				modelDependencies( modUnit, p_modelUnits );
 			}
 		}
-	}
-
-	@Override
-	public Object getElementFromScope( final Object p_element ) {
-		final ResourceSet resSet = getCustomResourcet();
-
-		if ( resSet != null && isModelElement( p_element ) ) {
-			return resSet.getEObject( EcoreUtil.getURI( (EObject) p_element ), true );
-		}
-		
-		return null;
 	}
 }
