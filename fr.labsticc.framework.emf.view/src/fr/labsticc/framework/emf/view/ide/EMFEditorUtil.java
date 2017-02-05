@@ -11,16 +11,25 @@
  ******************************************************************************/
 package fr.labsticc.framework.emf.view.ide;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.jface.viewers.IElementComparer;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -32,7 +41,39 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+import fr.labsticc.framework.emf.core.util.EMFUtil;
+
 public class EMFEditorUtil {
+
+	private static final IElementComparer uriComparer = new IElementComparer() {
+		
+		@Override
+		public int hashCode(Object element) {
+			return 0;
+		}
+		
+		@Override
+		public boolean equals(	final Object p_object1, 
+								final Object p_object2 ) {
+			if ( p_object1 == null ||  p_object2 == null ) {
+				return p_object2 == p_object1;
+			}
+			
+			if ( p_object1 instanceof EObject && p_object2 instanceof EObject ) {
+				return EMFUtil.equalsByURI( (EObject) p_object1, (EObject) p_object2 );
+			}
+			
+			if ( p_object1 instanceof Resource && p_object2 instanceof Resource ) {
+				return ( (Resource) p_object1 ).getURI().equals(  ( (Resource) p_object2 ).getURI() );
+			}
+			
+			if ( p_object1 instanceof ResourceSet && p_object2 instanceof ResourceSet ) {
+				return true;
+			}
+			
+			return p_object1.equals( p_object2 );
+		}
+	};
 
 	/**
 	 * Open the proper editor for the model object from its resource file extension (according 
@@ -46,17 +87,66 @@ public class EMFEditorUtil {
 		final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		
 		if ( window != null && window.getActivePage() != null ) {
-			for ( final EObject modelObject : p_modelObjects ) {
-				if ( modelObject.eResource() != null ) {
-					final URI uri = modelObject.eResource().getURI();
-					final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile( new Path( uri.toPlatformString( true ) ) );
-				
-					final IEditorPart editor = IDE.openEditor( window.getActivePage(), file );
-					editor.getEditorSite().getSelectionProvider().setSelection( new StructuredSelection( p_modelObjects ) );
-					
-					break;
-				}
+			final Resource commonRes = sameResource( p_modelObjects );
+			
+			if ( commonRes == null ) {
+				throw new PartInitException( "Cannot select objects from different resources!" );
 			}
+
+			final URI uri = commonRes.getURI();
+			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile( new Path( uri.toPlatformString( true ) ) );
+			
+			final IEditorPart editor = IDE.openEditor( window.getActivePage(), file );
+			
+			if ( editor == null ) {
+				throw new PartInitException( "Cannot find an ediotr for objects " + p_modelObjects + "." );
+			}
+			
+			selectIntoEditor( p_modelObjects, editor );
+		}
+	}
+	
+	private static Resource sameResource( final List<? extends EObject> p_modelObjects ) {
+		if ( p_modelObjects.isEmpty() ) {
+			return null;
+		}
+
+		final Set<Resource> resources = new HashSet<Resource>();
+		
+		for ( final EObject object : p_modelObjects ) {
+			assert object.eResource() != null;
+			
+			if ( !resources.add( object.eResource() ) ) {
+				return null;
+			}
+		}
+		
+		return resources.iterator().next();
+	}
+	
+	public static void selectIntoEditor( 	final List<? extends EObject> p_modelObjects,
+											final IEditorPart editor ) {
+		IElementComparer currentComparer = null;
+		StructuredViewer structViewer = null;
+		final ISelection selection = new StructuredSelection( p_modelObjects );
+
+		if ( editor instanceof IViewerProvider ) {
+			final Viewer viewer = ( (IViewerProvider) editor ).getViewer();
+			
+			if ( viewer instanceof StructuredViewer ) {
+				structViewer = (StructuredViewer) viewer;
+				currentComparer = structViewer.getComparer();
+				structViewer.setComparer( uriComparer );
+			}
+
+			viewer.setSelection( selection, true );
+		}
+		else {
+			editor.getEditorSite().getSelectionProvider().setSelection( selection );
+		}
+		
+		if ( structViewer != null ) {
+			structViewer.setComparer( currentComparer );
 		}
 	}
 	
