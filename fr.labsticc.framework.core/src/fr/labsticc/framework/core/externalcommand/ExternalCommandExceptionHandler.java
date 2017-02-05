@@ -25,7 +25,7 @@ public class ExternalCommandExceptionHandler extends BaseExceptionHandler implem
 	
 	@Override
 	public void handleReturnCode( 	final int pi_returnCode,
-									final String p_command ) 
+									final String p_command )
 	throws ExternalCommandException {
 		if ( pi_returnCode != getOkRetCode() ) {
 			final StringBuffer errorMessage = new StringBuffer( "Error executing external command " + p_command + "." );
