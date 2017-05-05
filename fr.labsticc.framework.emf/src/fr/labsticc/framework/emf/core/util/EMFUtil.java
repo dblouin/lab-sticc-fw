@@ -398,7 +398,7 @@ public class EMFUtil {
 		return objects;
     }
 	
-	private static Set<Resource> allReferencedExtents( final Resource resourceExtent ) {
+	public static Set<Resource> allReferencedExtents( final Resource resourceExtent ) {
 		final Set<Resource> referencedExtents = new HashSet<Resource>();
 		
 		final Iterator<EObject> contents = resourceExtent.getAllContents();
