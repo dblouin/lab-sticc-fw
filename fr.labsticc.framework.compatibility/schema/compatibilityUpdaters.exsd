@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":fr.openpeople.rdal.ide.compatibility.ICompatibilityUpdater"/>
+                  <meta.attribute kind="java" basedOn=":fr.labsticc.framework.compatibility.ICompatibilityUpdater"/>
                </appinfo>
             </annotation>
          </attribute>
