@@ -82,13 +82,13 @@ public class LuteInterpreter {
 			}
 			catch (NullPointerException npe)
 			{
-				DialogConsole.setLogRed();
+				//DialogConsole.setLogRed();
 				log.error("Command failed: " + npe.getMessage());
 				npe.printStackTrace();	
 			}
 			catch (LuteException e) 
 			{
-				DialogConsole.setLogRed();
+				//DialogConsole.setLogRed();
 				log.error("Command failed: " + e.getMessage());
 				e.printStackTrace();
 			}
@@ -184,26 +184,26 @@ public class LuteInterpreter {
 
 		return new SetVal( new ArrayList<Val>( elements ) );
 	}
-	
-	private Val allComponents(List<ComponentInstance> components) {
-		List<Val> result = new ArrayList<Val>();
-		for (ComponentInstance ci : components) {
-			result.add(new AADLVal(ci));
-		}
-		return new SetVal(result);
-	}
+//	
+//	private Val allComponents(List<ComponentInstance> components) {
+//		List<Val> result = new ArrayList<Val>();
+//		for (ComponentInstance ci : components) {
+//			result.add(new AADLVal(ci));
+//		}
+//		return new SetVal(result);
+//	}
 
 	private static SetVal filterComponents(	final List<ComponentInstance> components, 
 			final ComponentCategory category ) {
-final List<Val> result = new ArrayList<Val>();
+		final List<Val> result = new ArrayList<Val>();
 
-for (ComponentInstance ci : components) {
-if (ci.getCategory() == category) {
-result.add(new AADLVal(ci));
-}
-}
-return new SetVal(result);
-}
+		for (ComponentInstance ci : components) {
+			if (ci.getCategory() == category) {
+				result.add(new AADLVal(ci));
+			}
+		}
+		return new SetVal(result);
+	}
 
 
 	private List<Command> parseStream(InputStream stream) {
@@ -268,24 +268,24 @@ return new SetVal(result);
 	
 	public static List<Command> parse(	final String p_expression,
 			final Logger p_logger )
-throws RecognitionException {
-try  {
-return parseStream( new ByteArrayInputStream( p_expression.getBytes() ), p_logger );
-}
-catch ( final IOException p_ex ) {
-// Should not happen with a ByteArrayInputStream.
-throw new IllegalStateException( p_ex );
-}
-}
+					throws RecognitionException {
+		try  {
+			return parseStream( new ByteArrayInputStream( p_expression.getBytes() ), p_logger );
+		}
+		catch ( final IOException p_ex ) {
+			// Should not happen with a ByteArrayInputStream.
+			throw new IllegalStateException( p_ex );
+		}
+	}
 
-private static List<Command> parseStream(	final InputStream p_stream,
-					final Logger p_logger ) 
-throws IOException, RecognitionException {
-CharStream charStream = new ANTLRInputStream( p_stream );
-LuteLexer lexer = new LuteLexer( charStream, p_logger );
-TokenStream tokenStream = new CommonTokenStream(lexer);
-LuteParser parser = new LuteParser( tokenStream, p_logger );
+	private static List<Command> parseStream(	final InputStream p_stream,
+			final Logger p_logger ) 
+					throws IOException, RecognitionException {
+		CharStream charStream = new ANTLRInputStream( p_stream );
+		LuteLexer lexer = new LuteLexer( charStream, p_logger );
+		TokenStream tokenStream = new CommonTokenStream(lexer);
+		LuteParser parser = new LuteParser( tokenStream, p_logger );
 
-return parser.rule();
-}
+		return parser.rule();
+	}
 }

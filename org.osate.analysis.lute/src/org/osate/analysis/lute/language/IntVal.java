@@ -21,13 +21,10 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE DATA OR THE USE OR OTHER DEALINGS
 
 package org.osate.analysis.lute.language;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.osate.aadl2.instance.InstanceObject;
-import org.osate.aadl2.util.OsateDebug;
-
 
 public class IntVal extends Val {
 	final private Long i;

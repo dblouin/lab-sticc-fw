@@ -21,14 +21,8 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE DATA OR THE USE OR OTHER DEALINGS
 
 package org.osate.analysis.lute.language;
 
-import java.util.List;
-
-import org.osate.aadl2.instance.InstanceObject;
 import org.osate.analysis.lute.LuteFailure;
-import org.osate.analysis.lute.LuteResult;
 import org.slf4j.Logger;
-
-
 
 public class CheckStmt extends Stmt {
 	final private Expr expr;

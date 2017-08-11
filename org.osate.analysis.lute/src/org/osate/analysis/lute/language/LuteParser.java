@@ -2,17 +2,22 @@
 
   package org.osate.analysis.lute.language;
   
-  import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import org.antlr.runtime.BaseRecognizer;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.DFA;
+import org.antlr.runtime.MismatchedSetException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.Parser;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
 import org.osate.analysis.lute.LuteException;
 import org.slf4j.Logger;
-
- 
-import org.antlr.runtime.*;
-
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 public class LuteParser extends Parser {
     public static final String[] tokenNames = new String[] {

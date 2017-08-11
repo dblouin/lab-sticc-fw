@@ -56,7 +56,6 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE DATA OR THE USE OR OTHER DEALINGS
 
 package org.osate.analysis.lute.language;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -72,7 +71,6 @@ import org.osate.aadl2.ComponentCategory;
 import org.osate.aadl2.Connection;
 import org.osate.aadl2.DataPort;
 import org.osate.aadl2.DirectionType;
-import org.osate.aadl2.Element;
 import org.osate.aadl2.EnumerationLiteral;
 import org.osate.aadl2.EventDataPort;
 import org.osate.aadl2.EventPort;
@@ -95,19 +93,15 @@ import org.osate.aadl2.StringLiteral;
 import org.osate.aadl2.Subcomponent;
 import org.osate.aadl2.UnitLiteral;
 import org.osate.aadl2.UnitsType;
-import org.osate.aadl2.impl.ContainmentPathElementImpl;
-import org.osate.aadl2.impl.NamedValueImpl;
 import org.osate.aadl2.instance.ComponentInstance;
 import org.osate.aadl2.instance.ConnectionInstance;
 import org.osate.aadl2.instance.FeatureCategory;
 import org.osate.aadl2.instance.FeatureInstance;
 import org.osate.aadl2.instance.InstanceObject;
 import org.osate.aadl2.instance.InstanceReferenceValue;
-import org.osate.aadl2.instance.SystemInstance;
 import org.osate.aadl2.modelsupport.resources.OsateResourceUtil;
 import org.osate.aadl2.modelsupport.util.AadlUtil;
 import org.osate.aadl2.properties.PropertyDoesNotApplyToHolderException;
-import org.osate.aadl2.properties.PropertyLookupException;
 import org.osate.aadl2.properties.PropertyNotPresentException;
 import org.osate.aadl2.util.OsateDebug;
 import org.osate.analysis.lute.LuteConstants;
@@ -130,8 +124,8 @@ public class FnCallExpr extends Expr {
 		if (arg0 instanceof SetVal)
 		{
 			Collection<Val> arg0Set = arg0.getSet();
-			ArrayList<Val> result = new ArrayList<Val>();
-			Val tmp;
+			List<Val> result = new ArrayList<Val>();
+			//Val tmp;
 			Iterator<Val> iter = arg0Set.iterator();
 			while (iter.hasNext())
 			{
@@ -181,25 +175,25 @@ public class FnCallExpr extends Expr {
 		this.fn = fn;
 		this.args = args;
 	}
-
-	private static ComponentInstance lookUp ( ComponentInstance ci, String refName)
-	{
-		ComponentInstance ret;
-		ret = null;
-		for (Element e : ci.getChildren())
-		{
-			if (e instanceof ComponentInstance)
-			{
-				ComponentInstance ne = (ComponentInstance) e;
-				if (ne.getName().equalsIgnoreCase(refName))
-				{
-					ret = ne;
-				}
-			}
-		}
-		return ret;
-
-	}
+//
+//	private static ComponentInstance lookUp ( ComponentInstance ci, String refName)
+//	{
+//		ComponentInstance ret;
+//		ret = null;
+//		for (Element e : ci.getChildren())
+//		{
+//			if (e instanceof ComponentInstance)
+//			{
+//				ComponentInstance ne = (ComponentInstance) e;
+//				if (ne.getName().equalsIgnoreCase(refName))
+//				{
+//					ret = ne;
+//				}
+//			}
+//		}
+//		return ret;
+//
+//	}
 
 	@Override
 	public Val eval(Environment env) {
@@ -747,8 +741,8 @@ public class FnCallExpr extends Expr {
 			return createNumberValue( result );
 		} else if (fn.equalsIgnoreCase("Hex")) {
 			expectArgs(1);
-			Long i = argValues.get(0).getInt();
-			return new StringVal("16#" + i.toString(16) + "#");
+			//Long i = argValues.get(0).getInt();
+			return new StringVal("16#" + Long.toString(16) + "#");
 
 		} else {
 			FunctionDefinition fd = env.lookupFn(fn);
@@ -883,87 +877,87 @@ public class FnCallExpr extends Expr {
 //			return (new StringVal (""));
 //		}
 //	}
-
-	private Val AADLPropertyValueToValue(PropertyExpression expr) {
-		//OsateDebug.osateDebug("expr=" + expr);
-		if (expr == null) {
-			return null;
-		} else if (expr instanceof BooleanLiteral) {
-			BooleanLiteral lit = (BooleanLiteral) expr;
-			return new BoolVal(lit.getValue());
-		} else if (expr instanceof StringLiteral) {
-			StringLiteral lit = (StringLiteral) expr;
-			return new StringVal(lit.getValue());
-		} else if (expr instanceof IntegerLiteral) {
-			IntegerLiteral lit = (IntegerLiteral) expr;
-			// FIXME: JD
-			// the getScaledValue method can raise some issues
-			// when using size.
-			//return new IntVal((long) lit.getScaledValue());
-
-			return new IntVal((long) lit.getValue());
-		} else if (expr instanceof RangeValue) {
-			RangeValue range = (RangeValue) expr;
-			return new RangeVal(
-					AADLPropertyValueToValue(range.getMinimumValue()),
-					AADLPropertyValueToValue(range.getMaximumValue()),
-					AADLPropertyValueToValue(range.getDelta())
-					);
-		} else if (expr instanceof InstanceReferenceValue) {
-			InstanceReferenceValue irv = (InstanceReferenceValue) expr;
-			return new AADLVal(irv.getReferencedInstanceObject());
-		}
-		else if (expr instanceof NamedValue) {
-			NamedValueImpl nv = (NamedValueImpl)expr;
-
-			if (nv.getNamedValue() instanceof EnumerationLiteral)
-			{
-				EnumerationLiteral el = (EnumerationLiteral) nv.getNamedValue();
-				Val res = new StringVal (el.getName().toLowerCase());
-				return res;
-			}
-			throw new LuteException("NamedValue not implemented now " + nv );
-		}
-		else if (expr instanceof ListValue) {
-			ListValue lv = (ListValue) expr;
-			ArrayList<Val> list = new ArrayList<Val>();
-			for (PropertyExpression pe : lv.getOwnedListElements()) {
-				list.add(AADLPropertyValueToValue(pe));
-			}
-			return new SetVal(list);
-		} 
-		else if (expr instanceof ReferenceValue) {
-			String refName;
-			ComponentInstance ref;
-
-			ref = null;
-
-			ReferenceValue rv = (ReferenceValue) expr;
-
-			ContainmentPathElementImpl cpei = (ContainmentPathElementImpl)rv.getChildren().get(0);
-			NamedElement ne = cpei.getNamedElement();
-
-			refName = ne.getName();
-			Element e = cpei.getOwner();
-			while ((e != null) && (! ( e instanceof SystemInstance)))
-			{
-				if (e instanceof ComponentInstance)
-				{
-					ComponentInstance ci = (ComponentInstance)e;
-
-					ref = lookUp (ci, refName);
-					break;
-				}
-				e = e.getOwner();
-			}
-
-			return new AADLVal(ref);
-		}else 
-		{
-
-			throw new LuteException("Unknown AADL property value " + expr + " ("+expr.getOwner()+")on " + expr.getContainingClassifier());
-		}
-	}
+//
+//	private Val AADLPropertyValueToValue(PropertyExpression expr) {
+//		//OsateDebug.osateDebug("expr=" + expr);
+//		if (expr == null) {
+//			return null;
+//		} else if (expr instanceof BooleanLiteral) {
+//			BooleanLiteral lit = (BooleanLiteral) expr;
+//			return new BoolVal(lit.getValue());
+//		} else if (expr instanceof StringLiteral) {
+//			StringLiteral lit = (StringLiteral) expr;
+//			return new StringVal(lit.getValue());
+//		} else if (expr instanceof IntegerLiteral) {
+//			IntegerLiteral lit = (IntegerLiteral) expr;
+//			// FIXME: JD
+//			// the getScaledValue method can raise some issues
+//			// when using size.
+//			//return new IntVal((long) lit.getScaledValue());
+//
+//			return new IntVal((long) lit.getValue());
+//		} else if (expr instanceof RangeValue) {
+//			RangeValue range = (RangeValue) expr;
+//			return new RangeVal(
+//					AADLPropertyValueToValue(range.getMinimumValue()),
+//					AADLPropertyValueToValue(range.getMaximumValue()),
+//					AADLPropertyValueToValue(range.getDelta())
+//					);
+//		} else if (expr instanceof InstanceReferenceValue) {
+//			InstanceReferenceValue irv = (InstanceReferenceValue) expr;
+//			return new AADLVal(irv.getReferencedInstanceObject());
+//		}
+//		else if (expr instanceof NamedValue) {
+//			NamedValueImpl nv = (NamedValueImpl)expr;
+//
+//			if (nv.getNamedValue() instanceof EnumerationLiteral)
+//			{
+//				EnumerationLiteral el = (EnumerationLiteral) nv.getNamedValue();
+//				Val res = new StringVal (el.getName().toLowerCase());
+//				return res;
+//			}
+//			throw new LuteException("NamedValue not implemented now " + nv );
+//		}
+//		else if (expr instanceof ListValue) {
+//			ListValue lv = (ListValue) expr;
+//			ArrayList<Val> list = new ArrayList<Val>();
+//			for (PropertyExpression pe : lv.getOwnedListElements()) {
+//				list.add(AADLPropertyValueToValue(pe));
+//			}
+//			return new SetVal(list);
+//		} 
+//		else if (expr instanceof ReferenceValue) {
+//			String refName;
+//			ComponentInstance ref;
+//
+//			ref = null;
+//
+//			ReferenceValue rv = (ReferenceValue) expr;
+//
+//			ContainmentPathElementImpl cpei = (ContainmentPathElementImpl)rv.getChildren().get(0);
+//			NamedElement ne = cpei.getNamedElement();
+//
+//			refName = ne.getName();
+//			Element e = cpei.getOwner();
+//			while ((e != null) && (! ( e instanceof SystemInstance)))
+//			{
+//				if (e instanceof ComponentInstance)
+//				{
+//					ComponentInstance ci = (ComponentInstance)e;
+//
+//					ref = lookUp (ci, refName);
+//					break;
+//				}
+//				e = e.getOwner();
+//			}
+//
+//			return new AADLVal(ref);
+//		}else 
+//		{
+//
+//			throw new LuteException("Unknown AADL property value " + expr + " ("+expr.getOwner()+")on " + expr.getContainingClassifier());
+//		}
+//	}
 
 	private boolean isBoundTo(InstanceObject s, InstanceObject t) {
 		if (t instanceof ComponentInstance) {
@@ -1234,12 +1228,12 @@ public class FnCallExpr extends Expr {
 	private NamedElement getReferencedObject( final InstanceReferenceValue p_propertyValue ) {
 		return p_propertyValue.getReferencedInstanceObject() ;
 	}
-
-	private NamedElement getReferencedObject( final ReferenceValue p_propertyValue ) {
-		return p_propertyValue.getContainmentPathElements().get( 0 ).getNamedElement();
-		//									PropertyExpression irv = ((ReferenceValue) elem).instantiate(ci);
-
-	}
+//
+//	private NamedElement getReferencedObject( final ReferenceValue p_propertyValue ) {
+//		return p_propertyValue.getContainmentPathElements().get( 0 ).getNamedElement();
+//		//									PropertyExpression irv = ((ReferenceValue) elem).instantiate(ci);
+//
+//	}
 
 	
 	private Val getPropertyConstant( final List<Val> p_argValues ) {
