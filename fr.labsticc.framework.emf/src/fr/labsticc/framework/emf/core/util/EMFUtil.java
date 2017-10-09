@@ -167,9 +167,7 @@ public class EMFUtil {
 		}
 		
 		try {
-			convertToEMFResource( p_resource );
-			
-			return true;
+			return convertToEMFResource( p_resource ) != null;
 		}
 		catch ( final WrappedException p_ex ) {
 			return false;
